@@ -10,9 +10,9 @@ def gSearch(query):
     index = 1
 
     # Set up the API endpoint URL and parameters
-
+    amountOfArticlesToGet = 10
     articleURLs = [] 
-    while len(articleURLs) < 10:
+    while len(articleURLs) < amountOfArticlesToGet:
         # Make the GET request to the API
         url = 'https://www.googleapis.com/customsearch/v1'
         params = {
@@ -32,4 +32,4 @@ def gSearch(query):
                     articleURLs.append(item['link'])
         else:
             print('Error:', response.status_code)
-    return articleURLs[:10]
+    return articleURLs[:amountOfArticlesToGet]

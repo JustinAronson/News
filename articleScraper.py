@@ -2,11 +2,13 @@ import newspaper
 import json
 
 def getArticle(url):
-    article = newspaper.Article(url=url, language='en')
-    article.download()
-    article.parse()
+    try:
+        article = newspaper.Article(url=url, language='en')
+        article.download()
+        article.parse()
+        print(url)
 
-    article = {
+        article = {
         "title": str(article.title),
         "text": str(article.text),
         "authors": article.authors,
@@ -17,6 +19,10 @@ def getArticle(url):
         "keywords": article.keywords,
         "summary": str(article.summary)
     }
+
+    except:
+        print("Failed to get article text" + url)
+        return False
 
     return article
 
