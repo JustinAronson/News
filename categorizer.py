@@ -4,12 +4,6 @@ import re
 from googleSearch import gSearch
 import nltk
 
-# Get Article URL based on a search query
-# articles = gSearch("oil spill ohio train derailment")
-articles = gSearch("Election")
-
-
-
 def getStatistics(article):
     # Regex for in-text citations
     inTextCitations = r"\([^\)]*,[^\)]*\)"
@@ -29,39 +23,45 @@ def getStatistics(article):
     numStats = len(re.findall(regEx, article['text']))
     return numStats, numCitations
 
-articleIndexList = {}
+def categorizeSearch(search):
+    # Get Article URL based on a search query
+    articles = gSearch(search)
 
-for articleURL in articles:
-    # Get information from an Article URL
-    article = getArticle(articleURL)
+    articleIndexList = {}
 
-    if not article:
-        continue
+    for articleURL in articles:
+        # Get information from an Article URL
+        article = getArticle(articleURL)
 
-    numStats, numCitations = getStatistics(article)
-    
-    tokenizer = nltk.data.load('./english.pickle')
-    numSentences = len(nltk.tokenize.sent_tokenize(article['text'], language='english'))
+        if not article:
+            continue
 
-    dataDrivenIndex = (numStats+(numCitations*3))/numSentences
+        numStats, numCitations = getStatistics(article)
+        
+        tokenizer = nltk.data.load('./english.pickle')
+        numSentences = len(nltk.tokenize.sent_tokenize(article['text'], language='english'))
 
-    # Anecdotal stuff
-    anecdotalIndex = 0
-    x = re.findall(anecdotalRegex, article['text'])
-    for phrase in x:
-        anecdotalIndex += anecdotalDict[phrase]
+        dataDrivenIndex = (numStats+(numCitations*3))/numSentences
 
-    anecdotalIndex/=numSentences
-    
-    # saving data driven & anecdotal score
-    
-    articleIndexList[article['title']] = [dataDrivenIndex, anecdotalIndex]
-    
-    
+        # Anecdotal stuff
+        anecdotalIndex = 0
+        x = re.findall(anecdotalRegex, article['text'])
+        for phrase in x:
+            anecdotalIndex += anecdotalDict[phrase]
 
-for articleTitle in articleIndexList.keys():
-    scores = articleIndexList[articleTitle]
-    print(f"{articleTitle} - Data: {str(scores[0])} Anecdotal: {str(scores[1])}")
+        anecdotalIndex/=numSentences
+        
+        # saving data driven & anecdotal score
+        
+        articleIndexList[article['title']] = [dataDrivenIndex, anecdotalIndex]
+        
+        
+
+    for articleTitle in articleIndexList.keys():
+        scores = articleIndexList[articleTitle]
+        print(f"{articleTitle} \n Data: {str(scores[0])} Anecdotal: {str(scores[1])} \n")
 
 
-print("Number of articles: " + str(len(articleIndexList)))
+    print("Number of articles: " + str(len(articleIndexList)))
+
+    return articleIndexList
