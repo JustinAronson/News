@@ -6,7 +6,7 @@ def getArticle(url):
         article = newspaper.Article(url=url, language='en')
         article.download()
         article.parse()
-        print(url)
+        # print(url)
 
         article = {
         "title": str(article.title),
