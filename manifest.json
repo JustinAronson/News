@@ -7,7 +7,7 @@
       },
       "permissions": ["activeTab", "scripting"],
       "background": {
-        "service_worker": "background.js"
+        "service_worker": "reactApp/react-chrome-app/src/background.js"
       }
 }
     // "icons": {
