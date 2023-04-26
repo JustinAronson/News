@@ -41,6 +41,10 @@ def categorizeSearch(search):
         tokenizer = nltk.data.load('./english.pickle')
         numSentences = len(nltk.tokenize.sent_tokenize(article['text'], language='english'))
 
+        # If there are no sentences, continue
+        if numSentences == 0:
+            continue
+
         dataDrivenIndex = (numStats+(numCitations*3))/numSentences
 
         # Anecdotal stuff
