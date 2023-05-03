@@ -1,7 +1,7 @@
 const Article = (props) => {
 
     return (
-      
+      props
     )
     
   }
