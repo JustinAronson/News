@@ -11,7 +11,7 @@ const Articles = (props) => {
     <div class="articles">
       {
       Object.keys(props["props"]).map(key => (
-      <Article key={key} props={props["props"][key]} />
+        <Article props={[key,props["props"][key]]} />
       ))}
     </div>
   )
