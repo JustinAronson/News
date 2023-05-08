@@ -1,7 +1,10 @@
 const Article = (props) => {
 
+    console.log("In article")
     return (
-      props
+      <div class="article">
+        <p>im an article</p>
+      </div>
     )
     
   }

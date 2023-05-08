@@ -4,13 +4,19 @@ def gSearch(query):
     # Input: string (appends "news articles" after the input)
     # Output: list of 10 article URLs
 
-    API_KEY = "AIzaSyDcBDCirLkIEsiVaSO-C39O7-TMFJeqA_w"
-    CSE_ID = "35774e8a76e004093"
+    # justinaronson@gmail.com
+    # API_KEY = "AIzaSyCfdDhKLD5NA_eDP0zWsA8QGYEX9aQfuDY"
+    # CSE_ID = "92ab39f94f2fe4747"
+
+    # gabewhite2222@gmail.com, password = 92ab39f94f2fe4747
+    API_KEY = "AIzaSyCrxzkrKk3ZyTfvsTYjZ7dfAws1QQGTn54"
+    CSE_ID = "e757073b889c14bae"
 
     index = 1
 
     # Set up the API endpoint URL and parameters
     amountOfArticlesToGet = 10
+    whileLoopLimiter = 10 #after 10 requests it breaks
     articleURLs = [] 
     while len(articleURLs) < amountOfArticlesToGet:
         # Make the GET request to the API
@@ -31,5 +37,11 @@ def gSearch(query):
                 if(len(link)>=75 and not ("/tag" in link or "/hub" in link or "/topic" in link)):
                     articleURLs.append(item['link'])
         else:
-            print('Error:', response.status_code)
+            print('Error from Google API:', response.status_code)
+            break
+        if whileLoopLimiter <= 0:
+            print('Not enough articles gathered, but stopping to limit Google Search API calls')
+            break
+        whileLoopLimiter -= 1
+
     return articleURLs[:amountOfArticlesToGet]

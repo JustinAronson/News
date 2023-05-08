@@ -2,20 +2,21 @@ import {useEffect, useState} from 'react'
 import Article from './Article.js'
 
 const Articles = (props) => {
+  console.log(props)
+
+  console.log("Props[\"Props:\"]")
+  console.log(props["props"])
+  
   return (
-    <div>
-      <p>Enter a Search Term </p>
-      {props.data ? <p>{props.data}</p> : null}
+    <div class="articles">
+      {
+      Object.keys(props["props"]).map(key => (
+      <Article key={key} props={props["props"][key]} />
+      ))}
     </div>
-    )
-  }
-/*
-  return (
-    props.map(data => { return(
-              <Article data={data}/>
-    )})
   )
+  
 }
-  */
+
 
 export default Articles;

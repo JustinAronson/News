@@ -3,26 +3,10 @@ import './App.css';
 import Articles from './Articles.js';
 import { useState } from 'react';
 import axios from 'axios';
-/*
-try {
-  const response = await axios.get(`http://127.0.0.1:5000/${searchVal}.json`);
-  console.log("getting response");
-  const jsonData = await response.json();
-  setSearchResults(jsonData)
-  console.log("getting jsonData");
-  console.log(jsonData);
-
-  
-  } catch (err) {
-    console.log('Couldn\'t execute fetch');
-    console.log('Error: ')
-    console.log(err)
-  }
-
-*/
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
+  const [articleDict, setArticleDict] = useState('');
 
   const handleSubmit = event => {
     console.log('handleSubmit ran');
@@ -32,82 +16,45 @@ function App() {
     console.log('searchInput', searchInput);
 
     fetchSearch()
-
     // 👇️ clear all input values in the form
-    setSearchInput('');
+    // setSearchInput('');
   };
 
   async function fetchSearch() {
     console.log("In fetch search");
-    // var searchVal = document.getElementById("searchInput").value
-    
-    //async function logJSONData() {
-    
-    //}
-    //const axios = require('axios').default;
-// axios.<method> will now provide autocomplete and parameter typings
-// Make a request for a user with a given ID
-/*
-// Want to use async/await? Add the `async` keyword to your outer function/method.
-async function getUser() {
-  try {
-    const response = await axios.get('/user?ID=12345');
-    console.log(response);
-  } catch (error) {
-    console.error(error);
-  }
-}
-*/  var test = ''
-    var response = await fetch(`http://127.0.0.1:5000/${searchInput}`)
+    // setArticleDict('');
+    var test = ''
+    if (searchInput == '') {
+      console.log('Search term is empty')
+    }
+    var response = await fetch(`http://127.0.0.1:8000/${searchInput}`)
     var responseJson = await response.json()
-    console.log(responseJson)
-    // throw new Error(json)
-    
-    // fetch(`http://127.0.0.1:5000/${searchVal}`)
-    //   .then(response => {
-    //     test = response
-
-    //     throw new Error(response)
-    //     setTimeout(() => {
-
-    //       console.log(response.json());
-    //     }, 3000);
-    //     console.log(response.json())
-        
-    //   })
-    //   .catch(err => {
-    //       console.log(err)
-    //       console.log("Search term: " + searchVal)
-    //       console.log("URL: " + `http://127.0.0.1:5000/${searchVal}`)
-    //     });
-    // console.log(test)
-
-
-
-
-
-    // TypeError: NetworkError when attempting to fetch resource.
-
-    // const axios = require('axios');
-    // axios.get(`http://127.0.0.1:5000/${searchVal}`)
-    // .then(function (response) {
-    //   // handle success
-    //   console.log(response);
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    //   console.log("Search term: " + searchVal)
-    //   console.log("URL: " + `http://127.0.0.1:5000/${searchVal}`)
-    // });
-    
-    //TypeError: t(...).get is not a function
-
+    if (responseJson instanceof Error) {
+      console.log('It is an error!');
+    }
+    else {
+      console.log(responseJson);
+      // setArticleDict(JSON.parse(responseJson));
+      setArticleDict(responseJson);
+    }
   }
-
+  const article_test = {
+    // "props": {
+      "Article 1": [1.23, 4.56],
+      "Article 2": [2.34, 5.67],
+      "Article 3": [3.45, 6.78],
+      "Article 4": [4.56, 7.89],
+      "Article 5": [5.67, 8.90],
+      "Article 6": [6.78, 9.01],
+      "Article 7": [7.89, 1.12],
+      "Article 8": [8.90, 2.23],
+      "Article 9": [9.01, 3.34],
+      "Article 10": [1.12, 4.45]
+    // }
+  }
   return (
     <div className="App">
       <header className="App-header">
-      
         <form onSubmit={handleSubmit}>
           <input 
             id="searchInput"
@@ -118,11 +65,14 @@ async function getUser() {
             value={searchInput}></input>
           <button type="submit">Submit form</button>
         </form>
-        <div>
+        
 
-        </div>
       </header>
-        {/* <Articles /> */}
+      <div>
+        <Articles props={article_test}/>
+        {/*articleDict ? <Articles props={articleDict}/> : <div></div>*/}
+      </div>
+         
       
     </div>
   );
