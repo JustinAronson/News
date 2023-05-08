@@ -22,11 +22,25 @@ try {
 */
 
 function App() {
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
 
-  function fetchSearch() {
+  const handleSubmit = event => {
+    console.log('handleSubmit ran');
+    event.preventDefault(); // prevent page refresh
+
+    // 👇️ access input values here
+    console.log('searchInput', searchInput);
+
+    fetchSearch()
+
+    // 👇️ clear all input values in the form
+    setSearchInput('');
+  };
+
+  async function fetchSearch() {
     console.log("In fetch search");
-    var searchVal = document.getElementById("searchInput").value
+    // var searchVal = document.getElementById("searchInput").value
+    
     //async function logJSONData() {
     
     //}
@@ -44,23 +58,33 @@ async function getUser() {
   }
 }
 */  var test = ''
+    var response = await fetch(`http://127.0.0.1:5000/${searchInput}`)
+    var responseJson = await response.json()
+    console.log(responseJson)
+    // throw new Error(json)
+    
+    // fetch(`http://127.0.0.1:5000/${searchVal}`)
+    //   .then(response => {
+    //     test = response
 
-    fetch(`http://127.0.0.1:5000/${searchVal}`)
-      .then(response => {
-        test = response
-        setTimeout(() => {
+    //     throw new Error(response)
+    //     setTimeout(() => {
 
-          console.log(response.json());
-        }, 3000);
-        console.log(response.json())
+    //       console.log(response.json());
+    //     }, 3000);
+    //     console.log(response.json())
         
-      })
-      .catch(err => {
-          console.log(err)
-          console.log("Search term: " + searchVal)
-          console.log("URL: " + `http://127.0.0.1:5000/${searchVal}`)
-        });
-    console.log(test)
+    //   })
+    //   .catch(err => {
+    //       console.log(err)
+    //       console.log("Search term: " + searchVal)
+    //       console.log("URL: " + `http://127.0.0.1:5000/${searchVal}`)
+    //     });
+    // console.log(test)
+
+
+
+
 
     // TypeError: NetworkError when attempting to fetch resource.
 
@@ -83,15 +107,23 @@ async function getUser() {
   return (
     <div className="App">
       <header className="App-header">
-        <form>
-        <input id="searchInput" type="text" placeholder="Search" name="searchBox"></input>
-        <button onClick={fetchSearch} id="fetch-button">Fetch JSON Data</button>
+      
+        <form onSubmit={handleSubmit}>
+          <input 
+            id="searchInput"
+            name="searchInput"
+            type="text" 
+            placeholder="Search"
+            onChange={event => setSearchInput(event.target.value)}
+            value={searchInput}></input>
+          <button type="submit">Submit form</button>
         </form>
         <div>
 
-        </div> 
-        {/* <Articles /> */}
+        </div>
       </header>
+        {/* <Articles /> */}
+      
     </div>
   );
 }
