@@ -56,7 +56,9 @@ def categorizeSearch(search):
         
         # saving data driven & anecdotal score
         
-        articleIndexList[article['title']] = [dataDrivenIndex, anecdotalIndex]
+        articleIndexList[article['title']] = {"url": articleURL,
+                                                "dataDrivenIndex": dataDrivenIndex, 
+                                                "anecdotalIndex": anecdotalIndex}
         
         
 
