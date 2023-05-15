@@ -7,6 +7,19 @@ import axios from 'axios';
 function App() {
   const [searchInput, setSearchInput] = useState('');
   const [articleDict, setArticleDict] = useState('');
+  // Defining articleTest state from the beginning
+  const [articleTest, setArticleTest] = useState({
+    "Article 1": {"url": "google.com", "dataDrivenIndex": 1.23, "anecdotalIndex": 4.56},
+    "Article 2": {"url": "cnn.com", "dataDrivenIndex": 2.34, "anecdotalIndex": 2.56},
+    "Article 3": {"url": "nytimes.com", "dataDrivenIndex": 4.23, "anecdotalIndex": 3.56},
+    "Article 4": {"url": "abc.com", "dataDrivenIndex": 5.23, "anecdotalIndex": 4.56},
+    "Article 5": {"url": "xyz.com", "dataDrivenIndex": 6.23, "anecdotalIndex": 5.56},
+    "Article 6": {"url": "jjjj.com", "dataDrivenIndex": 7.23, "anecdotalIndex": 6.56},
+    "Article 7": {"url": "foxnews.com", "dataDrivenIndex": 8.23, "anecdotalIndex": 7.56},
+    "Article 8": {"url": "msnbc.com", "dataDrivenIndex": 9.23, "anecdotalIndex": 8.56},
+    "Article 9": {"url": "hold.com", "dataDrivenIndex": 10.23, "anecdotalIndex": 9.56},
+    "Article 10": {"url": "test.com", "dataDrivenIndex": 11.23, "anecdotalIndex": 10.56}
+});
 
   const handleSubmit = event => {
     console.log('handleSubmit ran');
@@ -38,22 +51,7 @@ function App() {
       setArticleDict(responseJson);
     }
   }
-  
-  const [articleTest, setArticleTest] = useState('');
-  setArticleTest(article_test = {
-    // "props": {
-      "Article 1": {"url": "google.com", "dataDrivenIndex": 1.23, "anecdotalIndex": 4.56},
-      "Article 2": {"url": "cnn.com", "dataDrivenIndex": 2.34, "anecdotalIndex": 2.56},
-      "Article 3": {"url": "nytimes.com", "dataDrivenIndex": 4.23, "anecdotalIndex": 3.56},
-      "Article 4": {"url": "abc.com", "dataDrivenIndex": 5.23, "anecdotalIndex": 4.56},
-      "Article 5": {"url": "xyz.com", "dataDrivenIndex": 6.23, "anecdotalIndex": 5.56},
-      "Article 6": {"url": "jjjj.com", "dataDrivenIndex": 7.23, "anecdotalIndex": 6.56},
-      "Article 7": {"url": "foxnews.com", "dataDrivenIndex": 8.23, "anecdotalIndex": 7.56},
-      "Article 8": {"url": "msnbc.com", "dataDrivenIndex": 9.23, "anecdotalIndex": 8.56},
-      "Article 9": {"url": "hold.com", "dataDrivenIndex": 10.23, "anecdotalIndex": 9.56},
-      "Article 10": {"url": "test.com", "dataDrivenIndex": 11.23, "anecdotalIndex": 10.56}
-    // }
-  })
+
   return (
     <div className="App">
       <header className="App-header">
@@ -71,7 +69,7 @@ function App() {
 
       </header>
       <div>
-        <Articles props={article_test}/>
+        <Articles props={articleTest}/>
         {/*articleDict ? <Articles props={articleDict}/> : <div></div>*/}
       </div>
          
