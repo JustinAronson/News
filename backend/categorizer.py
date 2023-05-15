@@ -6,7 +6,7 @@ import nltk
 import openai
 import os
 
-openai.api_key = "KEY HERE"
+openai.api_key = "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"
 
 def getStatistics(article):
     # Regex for in-text citations
@@ -61,6 +61,9 @@ def categorizeSearch(search, dimensionList):
 
     articleIndexList = {}
 
+    maxddIndex = 0
+    maxanecIndex = 0
+
     for articleURL in articles:
         # Get information from an Article URL
         article = getArticle(articleURL)
@@ -92,14 +95,23 @@ def categorizeSearch(search, dimensionList):
                                         "dataDrivenIndex": dataDrivenIndex, 
                                         "anecdotalIndex": anecdotalIndex}
 
+        if dataDrivenIndex > maxddIndex:
+            maxddIndex = dataDrivenIndex
+        if anecdotalIndex > maxanecIndex:
+            maxanecIndex = anecdotalIndex
+
         # saving data driven & anecdotal score
         if len(dimensionList) > 0:
             gptScores = getGPTDimensions(article['text'], dimensionList)
-            if gptScores:
+            if gptScores: 
                 gptList = re.findall(r'\b\d+\b', gptScores)
-
-                for i in range(0, len(dimensionList)):
-                    articleIndexList[article['title']][dimensionList[i] + "Index"] = gptList[i]
+                print(gptList)
+                if len(gptList) >= len(dimensionList):
+                    for i in range(0, len(dimensionList)):
+                        dimensionDict = {dimensionList[i] + "Index": gptList[i]}
+                        print("DimensionDict: ")
+                        print(dimensionDict)
+                        articleIndexList[article['title']].update(dimensionDict)
             
         
 
@@ -110,7 +122,20 @@ def categorizeSearch(search, dimensionList):
 
 
     print("Number of articles: " + str(len(articleIndexList)))
+    print(articleIndexList)
+
+    if maxddIndex == 0:
+        maxddIndex += 1
+    ddRoundingFactor = 100/maxddIndex
+    if maxanecIndex == 0:
+        maxanecIndex += 1
+    anecRoundingFactor = 100/maxanecIndex
+
+    for article in articleIndexList:
+        print(articleIndexList[article]["anecdotalIndex"])
+        articleIndexList[article]["dataDrivenIndex"] = round(articleIndexList[article]["dataDrivenIndex"] * ddRoundingFactor)
+        articleIndexList[article]["anecdotalIndex"] = round(articleIndexList[article]["anecdotalIndex"]*anecRoundingFactor)
 
     return articleIndexList
 
-categorizeSearch("Election", ["historical", "statistical", "theoretical"])
+# categorizeSearch("Election", ["historical", "statistical", "theoretical"])

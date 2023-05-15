@@ -40,7 +40,7 @@ function App() {
     if (searchInput == '') {
       console.log('Search term is empty')
     }
-    var response = await fetch(`http://127.0.0.1:8000/${searchInput}`)
+    var response = await fetch(`http://127.0.0.1:8000/${searchInput}?dimension=theoretical&dimension=historical&dimension=statistical`)
     var responseJson = await response.json()
     if (responseJson instanceof Error) {
       console.log('It is an error!');
@@ -79,7 +79,7 @@ function App() {
       <div class="max-w-2xl p-8">
           <label class="block text-left text-lg font-medium text-gray-800 pb-4">Search Articles</label>
           
-          <form>   
+          <form onSubmit={handleSubmit}>   
               <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
               <div class="relative">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -104,8 +104,8 @@ function App() {
       </div>
 
       <div>
-        <Articles props={articleTest}/>
-        {/*articleDict ? <Articles props={articleDict}/> : <div></div>*/}
+        {/* <Articles props={articleTest}/> */}
+        {articleDict ? <Articles props={articleDict}/> : <div></div>}
       </div>
          
       

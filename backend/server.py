@@ -14,10 +14,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 def getArticleData(search):
     params = request.args.to_dict(flat=False)
+    if params:
 
-    # Returning the dictionary of article indices
-    return categorizeSearch(search, params['dimension'])
+        # Returning the dictionary of article indices
+        return categorizeSearch(search, params['dimension'])
+    else:
+        return categorizeSearch(search, [])
   
-# # Running app
-# if __name__ == '__main__':
-#     app.run(port=8000, debug=True)
+# Running app
+if __name__ == '__main__':
+    app.run(port=8000, debug=True)

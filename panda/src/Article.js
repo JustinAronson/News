@@ -17,7 +17,8 @@ const Article = (props) => {
               <div class="inline-flex items-center gap-x-3">
 
                   <div class="flex items-center gap-x-2">
-                      <h2 class="font-medium text-gray-800 dark:text-white ">{props["props"][1]["url"]}</h2>
+                      {/* <h2 class="font-medium text-gray-800 dark:text-white ">{props["props"][1]["url"]}</h2> */}
+                      <a class="font-medium text-gray-800 dark:text-white " href={props["props"][1]["url"]}>{props["props"][0]}</a>
                   </div>
               </div>
           </td>

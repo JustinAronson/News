@@ -5,12 +5,12 @@ def gSearch(query):
     # Output: list of 10 article URLs
 
     # justinaronson@gmail.com
-    # API_KEY = "AIzaSyCfdDhKLD5NA_eDP0zWsA8QGYEX9aQfuDY"
-    # CSE_ID = "92ab39f94f2fe4747"
+    API_KEY = "AIzaSyCfdDhKLD5NA_eDP0zWsA8QGYEX9aQfuDY"
+    CSE_ID = "92ab39f94f2fe4747"
 
     # gabewhite2222@gmail.com, password = 92ab39f94f2fe4747
-    API_KEY = "AIzaSyCrxzkrKk3ZyTfvsTYjZ7dfAws1QQGTn54"
-    CSE_ID = "e757073b889c14bae"
+    # API_KEY = "AIzaSyCrxzkrKk3ZyTfvsTYjZ7dfAws1QQGTn54"
+    # CSE_ID = "e757073b889c14bae"
 
     index = 1
 
