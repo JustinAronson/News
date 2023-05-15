@@ -12,7 +12,7 @@ const Articles = (props) => {
       {/* Tailwind CSS Table*/}
       <div class="container px-4 mx-auto">
         <div class="flex items-center gap-x-3">
-            <h2 class="text-lg font-medium text-gray-800">Articles & Pragmatic Dimension Scores</h2>
+            <h2 class="text-3xl font-medium text-gray-800">Articles & Pragmatic Dimension Scores</h2>
         </div>
 
         <div class="flex flex-col mt-6">
