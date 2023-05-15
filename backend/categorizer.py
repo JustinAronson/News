@@ -3,6 +3,10 @@ from anecdotal import *
 import re
 from googleSearch import gSearch
 import nltk
+import openai
+import os
+
+openai.api_key = "KEY HERE"
 
 def getStatistics(article):
     # Regex for in-text citations
@@ -23,7 +27,35 @@ def getStatistics(article):
     numStats = len(re.findall(regEx, article['text']))
     return numStats, numCitations
 
-def categorizeSearch(search):
+def getGPTDimensions(text, dimensionList):
+    # print(generate_prompt(text, dimensionList))
+    # print("\n\n\n")
+    try:
+        response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=generate_prompt(text, dimensionList),
+                temperature=0.6,
+            )
+        print('Response: ' + response.choices[0].text)
+        return response.choices[0].text
+    
+    except:
+        print('Unable to get GPT response')
+        
+
+#     return """The score for the article along each dimension is as follows:
+
+# Historical: 60
+# Statistical: 90
+# Anecdotal: 50"""
+
+def generate_prompt(text, dimensionList):
+    dimensionString = (' ').join(dimensionList)
+    return """The text following the colon is a news article. Give it a score from 1-100 for how it falls along \
+each of the following dimensions, separated by spaces. """ + dimensionString + """. Return each score followed \
+by a space in order. Article: """ + text
+
+def categorizeSearch(search, dimensionList):
     # Get Article URL based on a search query
     articles = gSearch(search)
 
@@ -38,8 +70,10 @@ def categorizeSearch(search):
 
         numStats, numCitations = getStatistics(article)
         
-        tokenizer = nltk.data.load('./english.pickle')
-        numSentences = len(nltk.tokenize.sent_tokenize(article['text'], language='english'))
+        # tokenizer = nltk.data.load('./english.pickle')
+        # numSentences = len(nltk.tokenize.sent_tokenize(article['text'], language='english'))
+
+        numSentences = len(article['text'].split('.'))
 
         if numSentences == 0:
             continue
@@ -54,19 +88,29 @@ def categorizeSearch(search):
 
         anecdotalIndex/=numSentences
         
-        # saving data driven & anecdotal score
-        
         articleIndexList[article['title']] = {"url": articleURL,
-                                                "dataDrivenIndex": dataDrivenIndex, 
-                                                "anecdotalIndex": anecdotalIndex}
-        
+                                        "dataDrivenIndex": dataDrivenIndex, 
+                                        "anecdotalIndex": anecdotalIndex}
+
+        # saving data driven & anecdotal score
+        if len(dimensionList) > 0:
+            gptScores = getGPTDimensions(article['text'], dimensionList)
+            if gptScores:
+                gptList = re.findall(r'\b\d+\b', gptScores)
+
+                for i in range(0, len(dimensionList)):
+                    articleIndexList[article['title']][dimensionList[i] + "Index"] = gptList[i]
+            
         
 
-    for articleTitle in articleIndexList.keys():
-        scores = articleIndexList[articleTitle]
-        print(f"{articleTitle} \n Data: {str(scores[0])} Anecdotal: {str(scores[1])} \n")
+    # for articleTitle in articleIndexList.keys():
+    #     scores = articleIndexList[articleTitle]
+    #     print(f"{articleTitle} \n Data: {str(scores['dataDrivenIndex'])} Anecdotal: {str(scores['anecdotalIndex'])} \n")
+    #     print(f"Historical: {str(scores['historicalIndex'])} Statistical: {str(scores['statisticalIndex'])} Anecdotal: {str(scores['anecdotalIndex'])}")
 
 
     print("Number of articles: " + str(len(articleIndexList)))
 
     return articleIndexList
+
+categorizeSearch("Election", ["historical", "statistical", "theoretical"])
