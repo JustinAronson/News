@@ -18,7 +18,7 @@ const Article = (props) => {
 
                   <div class="flex items-center gap-x-2">
                       {/* <h2 class="font-medium text-gray-800 dark:text-white ">{props["props"][1]["url"]}</h2> */}
-                      <a class="font-medium text-gray-800 dark:text-white " href={props["props"][1]["url"]}>{props["props"][0]}</a>
+                      <a class="font-medium text-gray-800" href={props["props"][1]["url"]}>{props["props"][0]}</a>
                   </div>
               </div>
           </td>
@@ -26,9 +26,9 @@ const Article = (props) => {
           {anecdotal && anecdotal !== '' && (<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">{anecdotal}</td>)}
           <td class="px-4 py-4 text-sm whitespace-nowrap">
               <div class="flex items-center gap-x-2">
-                  {historical && historical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">Historical: {historical}</p>)}
-                  {statistical && statistical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">Statistical: {statistical}</p>)}
-                  {theoretical && theoretical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">Theoretical: {theoretical}</p>)}
+                  {historical && historical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Historical: {historical}</p>)}
+                  {statistical && statistical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Statistical: {statistical}</p>)}
+                  {theoretical && theoretical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Theoretical: {theoretical}</p>)}
               </div>
           </td>
       </tr>
