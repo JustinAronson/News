@@ -25,6 +25,10 @@ From main directory:
 Then run the server:
 `flask --app server.py run`
 
+The server should be running at http://127.0.0.1:8000/
+
+*For some reason mine runs at http://127.0.0.1:5000/, no idea why but changing the fetch URL in App.js to http://127.0.0.1:5000/ fixes the problem for me*
+
 # Running the Frontend App
 First open a new terminal while the terminal running the Backend server is still running. This is needed in order to test out anything on the site involving python
 
