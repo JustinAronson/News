@@ -29,13 +29,13 @@ def getStatistics(article):
     numStats = len(re.findall(regEx, article['text']))
     return numStats, numCitations
 
-def getGPTDimensions(text, dimensionList):
+def getGPTDimensions(text, dimensionList, articleDate):
     # print(generate_prompt(text, dimensionList))
     # print("\n\n\n")
     try:
         response = openai.Completion.create(
                 model="text-davinci-003",
-                prompt=generate_prompt(text, dimensionList),
+                prompt=generate_prompt(text, dimensionList, articleDate),
                 temperature=0.6,
             )
         print('Response: ' + response.choices[0].text)
@@ -51,14 +51,16 @@ def getGPTDimensions(text, dimensionList):
 # Statistical: 90
 # Anecdotal: 50"""
 
-def generate_prompt(text, dimensionList):
+def generate_prompt(text, dimensionList, articleDate):
+    if articleDate != None and articleDate != "None":
+        articleString= "It was published on " + articleDate + "."
+        print(articleString)
+
     dimensionString = ""
     for dimension in dimensionList:
-        dimensionString += "Score the article from 1-10 based on how much " + dimension + " context it provides."
-#     return """The text following the colon is a news article. Give it a score from 1-100 for how it falls along \
-# each of the following dimensions, separated by spaces. """ + dimensionString + """. Return each score followed \
-# by a space in order. Article: """ + text
-    return """The text following the colon is a news article. """ + dimensionString + """. Return each score followed \
+        dimensionString += " Score the article from 1-10 based on how much " + dimension + " context it provides."
+
+    return """The text following the colon is a news article. """+ articleString + dimensionString + """. Return each score followed \
 by a space in order. Article: """ + text
 
 def categorizeSearch(search, dimensionList):
@@ -108,7 +110,7 @@ def categorizeSearch(search, dimensionList):
 
         # saving data driven & anecdotal score
         if len(dimensionList) > 0:
-            gptScores = getGPTDimensions(article['text'], dimensionList)
+            gptScores = getGPTDimensions(article['text'], dimensionList, article["published_date"])
             if gptScores: 
                 gptList = re.findall(r'\b\d+\b', gptScores)
                 print(gptList)
