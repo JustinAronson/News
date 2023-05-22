@@ -1,12 +1,14 @@
 from articleScraper import getArticle
 from anecdotal import *
+import APIKeys
 import re
 from googleSearch import gSearch
 import nltk
 import openai
 import os
 
-openai.api_key = "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"
+openai.api_key = APIKeys.api_key
+openai.organization = APIKeys.organization
 
 def getStatistics(article):
     # Regex for in-text citations

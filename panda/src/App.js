@@ -6,6 +6,8 @@ import axios from 'axios';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
+  const [searchDims, setSearchDims] = useState('');
+  const [dimensionValues, setDimensionValues] = useState([''])
   const [articleDict, setArticleDict] = useState('');
   // Defining articleTest state from the beginning
   const [articleTest, setArticleTest] = useState({
@@ -40,7 +42,22 @@ function App() {
     if (searchInput == '') {
       console.log('Search term is empty')
     }
-    var response = await fetch(`http://127.0.0.1:8000/${searchInput}?dimension=theoretical&dimension=historical&dimension=statistical`)
+
+    console.log(dimensionValues)
+
+    var dimensionURLExtension = ''
+    for (var i=0; i < dimensionValues.length; i++) {
+      if (dimensionValues[i] != '') {
+        if (i==0) {
+          dimensionURLExtension += '?dimension='+dimensionValues[i]
+        } else {
+          dimensionURLExtension += '&dimension='+dimensionValues[i]
+        }
+      }
+    }
+
+
+    var response = await fetch(`http://127.0.0.1:8000/${searchInput}` + dimensionURLExtension)
     var responseJson = await response.json()
     if (responseJson instanceof Error) {
       console.log('It is an error!');
@@ -51,6 +68,23 @@ function App() {
       setArticleDict(responseJson);
     }
   }
+
+  let handleChange = (i, e) => {
+    let newDimensionValues = [...dimensionValues];
+    newDimensionValues[i] = e.target.value;
+    setDimensionValues(newDimensionValues);
+  }
+    
+  let addDimensionFields = () => {
+      setDimensionValues([...dimensionValues, ''])
+  }
+
+  let removeDimensionFields = (i) => {
+      let newDimensionValues = [...dimensionValues];
+      newDimensionValues.splice(i, 1);
+      setDimensionValues(newDimensionValues)
+  }
+
 
   return (
     <div className="App">
@@ -85,6 +119,7 @@ function App() {
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                   </div>
+
                   <input 
                     onChange={event => setSearchInput(event.target.value)}
                     value={searchInput}
@@ -94,11 +129,54 @@ function App() {
                     id="default-search" 
                     class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
                     required/>
+
+                  {dimensionValues.map((element, index) => (
+                  <div className="form-inline" key={index}>
+                    <label>Dimension</label>
+                    <input type="text" 
+                    name="dimension" 
+                    value={element || ""} 
+                    onChange={e => handleChange(index, e)} />
+
+                    {
+                      index ? 
+                        <button type="button"  className="button remove" onClick={() => removeDimensionFields(index)}>Remove</button> 
+                      : null
+                    }
+                  </div>
+                ))}
+
+                <div className="button-section">
+                    <button type="button" onClick={() => addDimensionFields()}
+                    >Add</button>
+                    <button type="submit"
+                    class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
+                      Submit</button>
+                </div>
+
+                  {/* <input 
+                    onChange={event => setSearchInput(event.target.value)}
+                    value={searchInput}
+                    placeholder="Search News Articles..." 
+                    type="search" 
+                    name="searchInput"
+                    id="default-search" 
+                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
+                    required/>
+                  <input
+                    onChange={event => setSearchDims(event.target.value)}
+                    value={searchDims}
+                    placeholder="[Optional] Set Search Dimensions..."
+                    type="search" 
+                    name="searchDims"
+                    id="default-search" 
+                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
+                    />
                     <button 
                       type="submit" 
                       class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
                         Search
-                    </button>
+                    </button> */}
               </div>
           </form>
       </div>

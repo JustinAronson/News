@@ -11,6 +11,10 @@ const Article = (props) => {
     var anecdotal = props["props"][1]["anecdotalIndex"];
     var data = props["props"][1]["dataDrivenIndex"];
 
+    if (!data || data == ''){
+        data = 0
+    }
+
     return (
       <tr>
           <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
