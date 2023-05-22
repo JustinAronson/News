@@ -5,9 +5,18 @@ const Article = (props) => {
     console.log(props["props"][1])
     console.log('Done printing')
 
-    var historical = props["props"][1]["historicalIndex"];
-    var statistical = props["props"][1]["statisticalIndex"];
-    var theoretical = props["props"][1]["theoreticalIndex"];
+    var dimensions = Object.keys(props["props"][1]);
+    
+    dimensions = dimensions.filter(function (dimension) {
+        return dimension !== "dataDrivenIndex" && dimension !== "anecdotalIndex" && dimension.includes("Index");
+    });
+
+    for (var i = 0; i < dimensions.length; i++) {
+        dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
+    }
+
+    console.log(dimensions)
+
     var anecdotal = props["props"][1]["anecdotalIndex"];
     var data = props["props"][1]["dataDrivenIndex"];
 
@@ -30,9 +39,12 @@ const Article = (props) => {
           {anecdotal && anecdotal !== '' && (<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">{anecdotal}</td>)}
           <td class="px-4 py-4 text-sm whitespace-nowrap">
               <div class="flex items-center gap-x-2">
-                  {historical && historical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Historical: {historical}</p>)}
+                {dimensions.map(key => (
+                    key && key !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">{key}: {props["props"][1][key+'Index']}</p>)
+                    ))}
+                  {/* {historical && historical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Historical: {historical}</p>)}
                   {statistical && statistical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Statistical: {statistical}</p>)}
-                  {theoretical && theoretical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Theoretical: {theoretical}</p>)}
+                  {theoretical && theoretical !== '' &&  (<p class="px-3 py-1 text-xs text-indigo-500 rounded-full bg-indigo-100/60">Theoretical: {theoretical}</p>)} */}
               </div>
           </td>
       </tr>

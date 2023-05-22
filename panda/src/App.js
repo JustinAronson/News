@@ -56,6 +56,7 @@ function App() {
       }
     }
 
+    console.log(`http://127.0.0.1:8000/${searchInput}` + dimensionURLExtension)
 
     var response = await fetch(`http://127.0.0.1:8000/${searchInput}` + dimensionURLExtension)
     var responseJson = await response.json()
