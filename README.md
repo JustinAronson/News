@@ -13,8 +13,7 @@ Install dependencies via `npm install` (or `npm install --force`):
 `npm i`   
 
 # Setting up the Backend Server
-First make sure the OpenAI api key is filled in in the `app.py` file: 
-`openai.api_key = [PUT API KEY HERE]`
+First create or get an `APIKeys.py` file and make sure working OpenAI api keys are filled in.
 
 Install python dependencies (i forgot the command, but it has to do with `pip` and a 'requirements' file)
 
