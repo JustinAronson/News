@@ -88,10 +88,8 @@ function App() {
 
   return (
     <div className="App">
-
       <div className="shadow bg-gray-800">
-
-            <ul class="flex py-2 shadow bg-gray-800">
+            <ul class="flex py-4 shadow bg-gray-800">
               <li class="flex-1 mr-2">
                   <p className="font-bold text-2xl text-gray-300">PANDA</p>
               </li>
@@ -111,7 +109,7 @@ function App() {
 
 
       <div class="max-w-2xl p-8">
-          <label class="block text-left text-lg font-medium text-gray-800 pb-4">Search Articles</label>
+          <label class="block text-left text-4xl font-medium text-gray-800 pb-4">Search Articles</label>
           
           <form onSubmit={handleSubmit}>   
               <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
