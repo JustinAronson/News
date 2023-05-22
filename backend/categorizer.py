@@ -52,9 +52,13 @@ def getGPTDimensions(text, dimensionList):
 # Anecdotal: 50"""
 
 def generate_prompt(text, dimensionList):
-    dimensionString = (' ').join(dimensionList)
-    return """The text following the colon is a news article. Give it a score from 1-100 for how it falls along \
-each of the following dimensions, separated by spaces. """ + dimensionString + """. Return each score followed \
+    dimensionString = ""
+    for dimension in dimensionList:
+        dimensionString += "Score the article from 1-10 based on how much " + dimension + " context it provides."
+#     return """The text following the colon is a news article. Give it a score from 1-100 for how it falls along \
+# each of the following dimensions, separated by spaces. """ + dimensionString + """. Return each score followed \
+# by a space in order. Article: """ + text
+    return """The text following the colon is a news article. """ + dimensionString + """. Return each score followed \
 by a space in order. Article: """ + text
 
 def categorizeSearch(search, dimensionList):
