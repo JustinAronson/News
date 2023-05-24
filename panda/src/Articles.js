@@ -5,7 +5,27 @@ const Articles = (props) => {
   console.log(props)
 
   console.log("Props[\"Props:\"]")
+  console.log("Articles.js props dictionary:")
   console.log(props["props"])
+
+  var dimensionList = []
+  for (const [key, value] of Object.entries(props["props"])) {
+    var dimensions = Object.keys(value);
+    
+    dimensions = dimensions.filter(function (dimension) {
+        return dimension.includes("Index");
+    });
+
+    for (var i = 0; i < dimensions.length; i++) {
+        dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
+        if (!dimensionList.includes(dimensions[i])) {
+          dimensionList.push(dimensions[i])
+        }
+    }
+  }
+
+  console.log("Dimension list: ")
+
   
   return (
     <div class="articles">

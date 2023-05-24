@@ -78,7 +78,7 @@ def categorizeSearch(search, dimensionList):
         # Get information from an Article URL
         article = getArticle(articleURL)
 
-        if not article:
+        if (not article) or (not article['text']) or (article['text'] == ""):
             continue
 
         numStats, numCitations = getStatistics(article)

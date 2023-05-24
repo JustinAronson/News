@@ -1,10 +1,5 @@
 const Article = (props) => {
 
-    console.log("In article")
-    console.log(props["props"])
-    console.log(props["props"][1])
-    console.log('Done printing')
-
     var dimensions = Object.keys(props["props"][1]);
     
     dimensions = dimensions.filter(function (dimension) {
@@ -14,8 +9,6 @@ const Article = (props) => {
     for (var i = 0; i < dimensions.length; i++) {
         dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
     }
-
-    console.log(dimensions)
 
     var anecdotal = props["props"][1]["anecdotalIndex"];
     var data = props["props"][1]["dataDrivenIndex"];
