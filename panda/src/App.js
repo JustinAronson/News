@@ -6,9 +6,9 @@ import axios from 'axios';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
-  const [searchDims, setSearchDims] = useState('');
   const [dimensionValues, setDimensionValues] = useState([''])
   const [articleDict, setArticleDict] = useState('');
+  const [dimensionToSort, setDimensionToSort] = useState(['Data DrivenIndex'])
   // Defining articleTest state from the beginning
   const [articleTest, setArticleTest] = useState({
     "Article 1": {"url": "google.com", "dataDrivenIndex": 1.23, "anecdotalIndex": 4.56},
@@ -42,8 +42,6 @@ function App() {
     if (searchInput == '') {
       console.log('Search term is empty')
     }
-
-    console.log(dimensionValues)
 
     var dimensionURLExtension = ''
     for (var i=0; i < dimensionValues.length; i++) {
@@ -84,6 +82,10 @@ function App() {
       let newDimensionValues = [...dimensionValues];
       newDimensionValues.splice(i, 1);
       setDimensionValues(newDimensionValues)
+  }
+
+  let setDimensionToSortHelp = (e) => {
+    setDimensionToSort(e)
   }
 
 
@@ -153,36 +155,36 @@ function App() {
                       Submit</button>
                 </div>
 
-                  {/* <input 
-                    onChange={event => setSearchInput(event.target.value)}
-                    value={searchInput}
-                    placeholder="Search News Articles..." 
-                    type="search" 
-                    name="searchInput"
-                    id="default-search" 
-                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
-                    required/>
-                  <input
-                    onChange={event => setSearchDims(event.target.value)}
-                    value={searchDims}
-                    placeholder="[Optional] Set Search Dimensions..."
-                    type="search" 
-                    name="searchDims"
-                    id="default-search" 
-                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
-                    />
-                    <button 
-                      type="submit" 
-                      class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
-                        Search
-                    </button> */}
               </div>
           </form>
       </div>
 
+{/* Add buttons to get dimension to sort on */}
+      {/* <form>
+        <input type="radio" id="option1" name="options" value="option1"/>
+        <label for="option1">Option 1</label>
+      </form> */}
+
+      {dimensionValues.map(function(dimension) {
+        return( 
+        <div>
+        <label for={dimension} >{dimension}</label>
+        <input type="radio" 
+        id={dimension}
+        name="options" 
+        value={dimension}
+        checked={dimensionToSort === dimension}
+        onChange={event => setDimensionToSortHelp(event.target.value)}/> 
+        </div>)
+      }) }
+      {dimensionValues.map(function(dimension) {
+        <div>
+        {dimension}
+        </div>
+      })}
+
       <div>
-        {/* <Articles props={articleTest}/> */}
-        {articleDict ? <Articles props={articleDict}/> : <div></div>}
+        {articleDict ? <Articles props={[articleDict, dimensionToSort]}/> : <div></div>}
       </div>
          
       

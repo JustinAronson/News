@@ -4,28 +4,51 @@ import Article from './Article.js'
 const Articles = (props) => {
   console.log(props)
 
-  console.log("Props[\"Props:\"]")
-  console.log("Articles.js props dictionary:")
-  console.log(props["props"])
+  // console.log("Props[\"Props:\"]")
+  // console.log("Articles.js props dictionary:")
+  // console.log(props["props"])
 
-  var dimensionList = []
-  for (const [key, value] of Object.entries(props["props"])) {
-    var dimensions = Object.keys(value);
+  // var dimensionList = []
+  // for (const [key, value] of Object.entries(props["props"])) {
+  //   var dimensions = Object.keys(value);
     
-    dimensions = dimensions.filter(function (dimension) {
-        return dimension.includes("Index");
-    });
+  //   dimensions = dimensions.filter(function (dimension) {
+  //       return dimension.includes("Index");
+  //   });
 
-    for (var i = 0; i < dimensions.length; i++) {
-        dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
-        if (!dimensionList.includes(dimensions[i])) {
-          dimensionList.push(dimensions[i])
-        }
+  //   for (var i = 0; i < dimensions.length; i++) {
+  //       dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
+  //       if (!dimensionList.includes(dimensions[i])) {
+  //         dimensionList.push(dimensions[i])
+  //       }
+  //   }
+  // }
+
+  // console.log("Dimension list: ")
+  // console.log(dimensionList)
+
+  const dimensionToSort = props["props"][1]
+
+  var articleOrder = Object.keys(props["props"][0])
+
+  articleOrder.sort((a, b) => {
+    if (!dimensionToSort in props["props"][0][a]) {
+      return 1;
     }
-  }
 
-  console.log("Dimension list: ")
-  console.log(dimensionList)
+    if (!dimensionToSort in props["props"][0][b]) {
+      return -1;
+    }
+
+    if (props["props"][0][a[dimensionToSort]] < props["props"][0][b[dimensionToSort]]) {
+      return 1;
+    }
+    if (props["props"][0][a[dimensionToSort]] > props["props"][0][b[dimensionToSort]]) {
+      return -1;
+    }
+
+    return 0;
+  });
   
   return (
     <div class="articles">
@@ -55,9 +78,15 @@ const Articles = (props) => {
                             <tbody class="bg-white divide-y divide-gray-200">
 
                             {
-                            Object.keys(props["props"]).map(key => (
-                              <Article props={[key,props["props"][key]]} />
-                            ))}                                
+                            
+                            articleOrder.map(key => 
+                              <Article props={[key ,props["props"][0][key]]} />)
+                              
+                            }
+                              
+                             {/* Object.keys(props["props"][0]).map(key => (
+                               <Article props={[key,props["props"][0][key]]} />
+                             ))}                                 */}
                             </tbody>
                         </table>
                     </div>
