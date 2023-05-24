@@ -3,15 +3,15 @@ const Article = (props) => {
     var dimensions = Object.keys(props["props"][1]);
     
     dimensions = dimensions.filter(function (dimension) {
-        return dimension !== "dataDrivenIndex" && dimension !== "anecdotalIndex" && dimension.includes("Index");
+        return dimension !== "Data DrivenIndex" && dimension !== "AnecdotalIndex" && dimension.includes("Index");
     });
 
     for (var i = 0; i < dimensions.length; i++) {
         dimensions[i] = dimensions[i].substring(0, dimensions[i].length-5)
     }
 
-    var anecdotal = props["props"][1]["anecdotalIndex"];
-    var data = props["props"][1]["dataDrivenIndex"];
+    var anecdotal = props["props"][1]["AnecdotalIndex"];
+    var data = props["props"][1]["Data DrivenIndex"];
 
     if (!data || data == ''){
         data = 0

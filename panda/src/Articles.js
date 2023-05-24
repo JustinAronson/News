@@ -25,7 +25,7 @@ const Articles = (props) => {
   }
 
   console.log("Dimension list: ")
-
+  console.log(dimensionList)
   
   return (
     <div class="articles">

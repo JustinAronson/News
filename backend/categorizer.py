@@ -102,8 +102,8 @@ def categorizeSearch(search, dimensionList):
         anecdotalIndex/=numSentences
         
         articleIndexList[article['title']] = {"url": articleURL,
-                                        "dataDrivenIndex": dataDrivenIndex, 
-                                        "anecdotalIndex": anecdotalIndex}
+                                        "Data DrivenIndex": dataDrivenIndex, 
+                                        "AnecdotalIndex": anecdotalIndex}
 
         if dataDrivenIndex > maxddIndex:
             maxddIndex = dataDrivenIndex
@@ -142,9 +142,9 @@ def categorizeSearch(search, dimensionList):
     anecRoundingFactor = 100/maxanecIndex
 
     for article in articleIndexList:
-        print(articleIndexList[article]["anecdotalIndex"])
-        articleIndexList[article]["dataDrivenIndex"] = round(articleIndexList[article]["dataDrivenIndex"] * ddRoundingFactor)
-        articleIndexList[article]["anecdotalIndex"] = round(articleIndexList[article]["anecdotalIndex"]*anecRoundingFactor)
+        print(articleIndexList[article]["AnecdotalIndex"])
+        articleIndexList[article]["Data DrivenIndex"] = round(articleIndexList[article]["Data DrivenIndex"] * ddRoundingFactor)
+        articleIndexList[article]["AnecdotalIndex"] = round(articleIndexList[article]["AnecdotalIndex"]*anecRoundingFactor)
 
     return articleIndexList
 
