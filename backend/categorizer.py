@@ -41,8 +41,9 @@ def getGPTDimensions(text, dimensionList, articleDate):
         print('Response: ' + response.choices[0].text)
         return response.choices[0].text
     
-    except:
+    except Exception as e: 
         print('Unable to get GPT response')
+        print(e)
         
 
 #     return """The score for the article along each dimension is as follows:
@@ -52,6 +53,7 @@ def getGPTDimensions(text, dimensionList, articleDate):
 # Anecdotal: 50"""
 
 def generate_prompt(text, dimensionList, articleDate):
+    articleString = ""
     if articleDate != None and articleDate != "None":
         articleString= "It was published on " + articleDate + "."
         print(articleString)
