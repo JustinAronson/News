@@ -29,58 +29,64 @@ const Articles = (props) => {
 
   const dimensionToSort = props["props"][1]
 
-  var articleOrder = Object.keys(props["props"][0])
+  var newsArray = Object.entries(props["props"][0]);
+  console.log("news array:")
+  console.log(newsArray)
+  console.log("but lets see the dimension to sort")
+  console.log(dimensionToSort)
 
-  articleOrder.sort((a, b) => {
-    if (!dimensionToSort in props["props"][0][a]) {
-      return 1;
-    }
+  var articleOrder = newsArray.map(([title]) => title)
+  console.log("old article order: "+articleOrder);
 
-    if (!dimensionToSort in props["props"][0][b]) {
-      return -1;
+  newsArray.sort((a, b) => {
+    const aDimValue = a[1][dimensionToSort];
+    const bDimValue = b[1][dimensionToSort];
+  
+    // Check if the dimension exists in both articles
+    if (aDimValue !== undefined && bDimValue !== undefined) {
+      return bDimValue - aDimValue;
+    } else if (aDimValue !== undefined) {
+      return -1; // Place the article with dimension key ahead
+    } else if (bDimValue !== undefined) {
+      return 1; // Place the article with dimension key ahead
     }
-
-    if (props["props"][0][a[dimensionToSort]] < props["props"][0][b[dimensionToSort]]) {
-      return 1;
-    }
-    if (props["props"][0][a[dimensionToSort]] > props["props"][0][b[dimensionToSort]]) {
-      return -1;
-    }
-
-    return 0;
+    return 0; // Both articles have missing dimension key, maintain original order
   });
+
+  var articleOrder = newsArray.map(([title]) => title)
+  console.log("new article order: "+articleOrder);
   
   return (
-    <div class="articles">
+    <div className="articles">
       {/* Tailwind CSS Table*/}
-      <div class="container px-4 mx-auto">
-        <div class="flex items-center gap-x-3">
-            <h2 class="text-3xl font-medium text-gray-800">Articles & Pragmatic Dimension Scores</h2>
+      <div className="container px-4 mx-auto">
+        <div className="flex items-center gap-x-3">
+            <h2 className="text-3xl font-medium text-gray-800">Articles & Pragmatic Dimension Scores</h2>
         </div>
 
-        <div class="flex flex-col mt-6">
-            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <div class="overflow-hidden border border-gray-200 md:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+        <div className="flex flex-col mt-6">
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div className="overflow-hidden border border-gray-200 md:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Article URL </th>
+                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Article URL </th>
 
-                                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Data Driven </th>
+                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Data Driven </th>
 
-                                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Anecdotal </th>
+                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Anecdotal </th>
 
-                                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-center  text-gray-500"> Other Pragmatic Dimensions </th>
+                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center  text-gray-500"> Other Pragmatic Dimensions </th>
 
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody className="bg-white divide-y divide-gray-200">
 
                             {
                             
                             articleOrder.map(key => 
-                              <Article props={[key ,props["props"][0][key]]} />)
+                              <Article props={[key, props["props"][0][key]]} />)
                               
                             }
                               
