@@ -164,13 +164,21 @@ function App() {
         </div>
 
 
-      <div className="max-w-2xl p-8">
-          <label className="block text-left text-4xl font-medium text-gray-800 pb-4">Search Articles</label>
+      <div className="p-8">
+          <div className="flex flex-row">
+            <div className="w-1/2 px-8">
+              <label className="block text-left text-4xl font-medium text-gray-800 pb-4">Search Articles</label>
+            </div>
+            <div className="w-1/2 px-8">
+            <label className="block text-left text-4xl font-medium text-gray-800 pb-4">Add Dimensions</label>
+            </div>
+          </div>
           
+
           <form onSubmit={handleSubmit}>   
-              <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-              <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none mb-12">
+            <div className="flex flex-row">
+              <div className="w-1/2 h-14 max-h-14 relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                   </div>
 
@@ -181,34 +189,46 @@ function App() {
                     type="search" 
                     name="searchInput"
                     id="default-search" 
-                    className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
+                    className="w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
                     required/>
 
-                  {dimensionValues.map((element, index) => (
-                  <div className="form-inline" key={index}>
-                    <label>Dimension</label>
-                    <input type="text" 
-                    name="dimension" 
-                    value={element || ""} 
-                    onChange={e => handleChange(index, e)} />
-
-                    {
-                      index ? 
-                        <button type="button"  className="button remove" onClick={() => removeDimensionFields(index)}>Remove</button> 
-                      : null
-                    }
-                  </div>
-                ))}
-
                 <div className="button-section">
-                    <button type="button" onClick={() => addDimensionFields()}
-                    >Add</button>
+                    
                     <button type="submit" 
-                    className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 mb-12">
+                    className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
                       Submit</button>
                 </div>
 
               </div>
+              <div className="w-1/2 flex flex-col">
+                {dimensionValues.map((element, index) => (
+                    <div className="form-inline flex-row" key={index}>
+
+                      <input type="text" 
+                              placeholder="Insert Dimension..." 
+                              class="mt-2 w-1/2 placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300" 
+                             
+                              name="dimension" 
+                              value={element || ""} 
+                              onChange={e => handleChange(index, e)}
+                             
+                             />
+
+                      {
+                        index ? 
+                          <button type="button"  className="button remove px-4" onClick={() => removeDimensionFields(index)}>
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                            </svg>                          </button>
+                        : <button className="px-7"></button>
+                      }
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => addDimensionFields()}
+                      >Add</button>
+              </div>
+            </div>
           </form>
       </div>
 
@@ -220,13 +240,13 @@ function App() {
 
         {/* Buttons for sorting by Data Driven or Anecdotal */}
         <div>
-          <label >Sort By Data Driven Index</label>
+          <label >Sort By Data Driven Index </label>
           <input type="radio"
           checked={dimensionToSort === "Data DrivenIndex"}
           onChange={event => setDimensionToSort("Data DrivenIndex")}/> 
         </div>
         <div>
-          <label >Sory By Anecdotal Index</label>
+          <label >Sory By Anecdotal Index </label>
           <input type="radio"
           checked={dimensionToSort === "AnecdotalIndex"}
           onChange={event => setDimensionToSort("AnecdotalIndex")}/> 
@@ -236,9 +256,9 @@ function App() {
       {dimensionValues.map(function(dimension) {
         return( 
         <div>
-        <label >Sort by {dimension}</label>
+        <label >Sort by {dimension} </label>
         <input type="radio" 
-        checked={dimensionToSort === dimension}
+        checked={dimensionToSort === dimension+"Index"}
         onChange={event => setDimensionToSortHelp(dimension+"Index")}/> 
         </div>)
       }) }
