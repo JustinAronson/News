@@ -83,6 +83,8 @@ function App() {
     // 👇️ access input values here
     console.log('searchInput', searchInput);
 
+    setArticleDict({})
+
     fetchSearch()
     // 👇️ clear all input values in the form
     // setSearchInput('');
