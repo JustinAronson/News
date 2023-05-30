@@ -30,6 +30,7 @@ def gSearch(query):
         response = requests.get(url, params=params)
         index += 10
         # Parse the JSON response to extract the URLs of the articles
+        # print(response)
         if response.status_code == 200:
             data = response.json()
             for item in data['items']:

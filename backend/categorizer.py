@@ -1,12 +1,14 @@
 from articleScraper import getArticle
 from anecdotal import *
+import APIKeys
 import re
 from googleSearch import gSearch
 import nltk
 import openai
 import os
 
-openai.api_key = "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"
+openai.api_key = APIKeys.api_key
+openai.organization = APIKeys.organization
 
 def getStatistics(article):
     # Regex for in-text citations
@@ -27,20 +29,21 @@ def getStatistics(article):
     numStats = len(re.findall(regEx, article['text']))
     return numStats, numCitations
 
-def getGPTDimensions(text, dimensionList):
+def getGPTDimensions(text, dimensionList, articleDate):
     # print(generate_prompt(text, dimensionList))
     # print("\n\n\n")
     try:
         response = openai.Completion.create(
                 model="text-davinci-003",
-                prompt=generate_prompt(text, dimensionList),
+                prompt=generate_prompt(text, dimensionList, articleDate),
                 temperature=0.6,
             )
         print('Response: ' + response.choices[0].text)
         return response.choices[0].text
     
-    except:
+    except Exception as e: 
         print('Unable to get GPT response')
+        print(e)
         
 
 #     return """The score for the article along each dimension is as follows:
@@ -49,10 +52,17 @@ def getGPTDimensions(text, dimensionList):
 # Statistical: 90
 # Anecdotal: 50"""
 
-def generate_prompt(text, dimensionList):
-    dimensionString = (' ').join(dimensionList)
-    return """The text following the colon is a news article. Give it a score from 1-100 for how it falls along \
-each of the following dimensions, separated by spaces. """ + dimensionString + """. Return each score followed \
+def generate_prompt(text, dimensionList, articleDate):
+    articleString = ""
+    if articleDate != None and articleDate != "None":
+        articleString= "It was published on " + articleDate + "."
+        print(articleString)
+
+    dimensionString = ""
+    for dimension in dimensionList:
+        dimensionString += " Score the article from 1-10 based on how much " + dimension + " context it provides."
+
+    return """The text following the colon is a news article. """+ articleString + dimensionString + """. Return each score followed \
 by a space in order. Article: """ + text
 
 def categorizeSearch(search, dimensionList):
@@ -68,7 +78,7 @@ def categorizeSearch(search, dimensionList):
         # Get information from an Article URL
         article = getArticle(articleURL)
 
-        if not article:
+        if (not article) or (not article['text']) or (article['text'] == ""):
             continue
 
         numStats, numCitations = getStatistics(article)
@@ -92,8 +102,8 @@ def categorizeSearch(search, dimensionList):
         anecdotalIndex/=numSentences
         
         articleIndexList[article['title']] = {"url": articleURL,
-                                        "dataDrivenIndex": dataDrivenIndex, 
-                                        "anecdotalIndex": anecdotalIndex}
+                                        "Data DrivenIndex": dataDrivenIndex, 
+                                        "AnecdotalIndex": anecdotalIndex}
 
         if dataDrivenIndex > maxddIndex:
             maxddIndex = dataDrivenIndex
@@ -102,7 +112,7 @@ def categorizeSearch(search, dimensionList):
 
         # saving data driven & anecdotal score
         if len(dimensionList) > 0:
-            gptScores = getGPTDimensions(article['text'], dimensionList)
+            gptScores = getGPTDimensions(article['text'], dimensionList, article["published_date"])
             if gptScores: 
                 gptList = re.findall(r'\b\d+\b', gptScores)
                 print(gptList)
@@ -132,9 +142,9 @@ def categorizeSearch(search, dimensionList):
     anecRoundingFactor = 100/maxanecIndex
 
     for article in articleIndexList:
-        print(articleIndexList[article]["anecdotalIndex"])
-        articleIndexList[article]["dataDrivenIndex"] = round(articleIndexList[article]["dataDrivenIndex"] * ddRoundingFactor)
-        articleIndexList[article]["anecdotalIndex"] = round(articleIndexList[article]["anecdotalIndex"]*anecRoundingFactor)
+        print(articleIndexList[article]["AnecdotalIndex"])
+        articleIndexList[article]["Data DrivenIndex"] = round(articleIndexList[article]["Data DrivenIndex"] * ddRoundingFactor)
+        articleIndexList[article]["AnecdotalIndex"] = round(articleIndexList[article]["AnecdotalIndex"]*anecRoundingFactor)
 
     return articleIndexList
 
