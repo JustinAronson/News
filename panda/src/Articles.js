@@ -73,7 +73,7 @@ const Articles = (props) => {
                                 <tr>
                                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Article URL </th>
 
-                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Data Driven </th>
+                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Data-Driven </th>
 
                                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center text-gray-500"> Anecdotal </th>
 

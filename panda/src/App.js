@@ -242,7 +242,7 @@ function App() {
 
         {/* Buttons for sorting by Data Driven or Anecdotal */}
         <div>
-          <label >Sort By Data Driven Index </label>
+          <label >Sort By Data-Driven Index </label>
           <input type="radio"
           checked={dimensionToSort === "Data DrivenIndex"}
           onChange={event => setDimensionToSort("Data DrivenIndex")}/> 
