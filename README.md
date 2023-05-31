@@ -1,7 +1,7 @@
 # PANDA
-Pragmatic Analysis of News in multiple Dimensions (Amazing)
+Pragmatic Analysis of News through Dimensional Approaches
 
-Instructions updated 5/16/2023
+Instructions updated 5/30/2023
 
 # Setting up the Frontend
 From the home directory, go to panda file:
@@ -15,15 +15,15 @@ Install dependencies via `npm install` (or `npm install --force`):
 # Setting up the Backend Server
 First create or get an `APIKeys.py` file and make sure working OpenAI api keys are filled in.
 
-Install python dependencies (i forgot the command, but it has to do with `pip` and a 'requirements' file)
+Then, install python dependencies
 
-*You may need to install newspaper separately like this:*
+*You may need to install dependeincies indivudally using pip command, for example install newspaper like this:*
 
 `pip install newspaper3k`
 
 *If you have multiple python instances in your computer you may have to specify which instance you're using to both install dependencies and run, e.g. with something that might look like this:*
 
-`C:/Users/abc/AppData/Local/Microsoft/WindowsApps/python3.9.exe -m pip install newspaper3k`
+`C:/.../.../python3.9.exe -m pip install ...`
 
 # Running the Backend Server
 From main directory:
@@ -36,7 +36,7 @@ Then run the server:
 
 The server should be running at http://127.0.0.1:8000/
 
-*For some reason mine runs at 127.0.0.1:5000, no idea why but changing the fetch URL in App.js to 127.0.0.1:5000 fixes the problem for me*
+*Some computers may run it from different localhost address (e.g. 127.0.0.1:5000), in that case change the fetch URL in App.js to match it*
 
 # Running the Frontend App
 First open a new terminal while the terminal running the Backend server is still running. This is needed in order to test out anything on the site involving python
@@ -49,4 +49,6 @@ Start up the website in dev mode:
 
 `npm run start`
 
-The website will be at: http://localhost:3000/ unless you already have something else running in your localhost:3000, then a specific link is provided in the terminal
+The website will be at: http://localhost:3000/ 
+
+*If you already have something else running in your localhost:3000, then a specific link is provided in the terminal*
