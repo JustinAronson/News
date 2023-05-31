@@ -60,7 +60,7 @@ def generate_prompt(text, dimensionList, articleDate):
 
     dimensionString = ""
     for dimension in dimensionList:
-        dimensionString += " Score the article from 1-10 based on how much " + dimension + " context it provides."
+        dimensionString += " Score the article from 1-5 based on how much " + dimension + " context it provides."
 
     return """The text following the colon is a news article. """+ articleString + dimensionString + """. Return each score followed \
 by a space in order. Article: """ + text
@@ -73,6 +73,13 @@ def categorizeSearch(search, dimensionList):
 
     maxddIndex = 0
     maxanecIndex = 0
+
+    if 'Data Driven' in dimensionList:
+        dimensionList.remove('Data Driven')
+    if 'Anecdotal Index' in dimensionList:
+        dimensionList.remove('Anecdotal')
+
+    print(dimensionList)
 
     for articleURL in articles:
         # Get information from an Article URL
@@ -118,10 +125,11 @@ def categorizeSearch(search, dimensionList):
                 print(gptList)
                 if len(gptList) >= len(dimensionList):
                     for i in range(0, len(dimensionList)):
-                        dimensionDict = {dimensionList[i] + "Index": gptList[i]}
-                        print("DimensionDict: ")
-                        print(dimensionDict)
-                        articleIndexList[article['title']].update(dimensionDict)
+                        if (gptList[i] in ['0','1','2','3','4','5']):
+                            dimensionDict = {dimensionList[i] + "Index": gptList[i]}
+                            print("DimensionDict: ")
+                            print(dimensionDict)
+                            articleIndexList[article['title']].update(dimensionDict)
             
         
 
@@ -136,10 +144,10 @@ def categorizeSearch(search, dimensionList):
 
     if maxddIndex == 0:
         maxddIndex += 1
-    ddRoundingFactor = 100/maxddIndex
+    ddRoundingFactor = 5/maxddIndex
     if maxanecIndex == 0:
         maxanecIndex += 1
-    anecRoundingFactor = 100/maxanecIndex
+    anecRoundingFactor = 5/maxanecIndex
 
     for article in articleIndexList:
         print(articleIndexList[article]["AnecdotalIndex"])

@@ -256,13 +256,15 @@ function App() {
 
         {/* Buttons for sorting other dimensions */}
       {dimensionValues.map(function(dimension) {
-        return( 
+        if (dimension != "Data Driven" && dimension != "Anecdotal") {
+          return( 
         <div>
-        <label >Sort by {dimension} </label>
+        <label >Sort by {dimension} Index </label>
         <input type="radio" 
         checked={dimensionToSort === dimension+"Index"}
         onChange={event => setDimensionToSortHelp(dimension+"Index")}/> 
         </div>)
+        }
       }) }
       {dimensionValues.map(function(dimension) {
         <div>
