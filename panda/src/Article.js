@@ -14,7 +14,7 @@ const Article = (props) => {
     var data = props["props"][1]["Data DrivenIndex"];
 
     if (!data || data == ''){
-        data = 0
+        data = '0'
     }
 
     return (
