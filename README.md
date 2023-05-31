@@ -1,5 +1,5 @@
 # PANDA
-Pragmatic Analysis of News in multiple Dimensions (Amazing)
+Pragmatic Analysis of News through Dimensional Approaches
 
 Instructions updated 5/16/2023
 
