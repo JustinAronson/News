@@ -39,9 +39,7 @@ The server should be running at http://127.0.0.1:8000/
 *If your server runs somewhere else (e.g. 127.0.0.1:5000) change the fetch URL in App.js to match it*
 
 # Running the Frontend App
-First open a new terminal while the terminal running the Backend server is still running. This is needed in order to test out anything on the site involving python
-
-From the home directory, go to panda file:
+Open a new terminal while the terminal running the backend server is still running. From the repos' home directory, go to the panda folder:
 
 `cd panda`
 
